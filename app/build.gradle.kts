@@ -64,3 +64,4 @@ dependencies {
     // serializable
     implementation(libs.kotlinx.serialization.json)
 }
+
