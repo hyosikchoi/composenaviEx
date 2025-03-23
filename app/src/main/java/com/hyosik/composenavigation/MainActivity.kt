@@ -2,6 +2,7 @@ package com.hyosik.composenavigation
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -27,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -137,6 +139,9 @@ fun MyApp() {
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
+
+    val context = LocalContext.current
+
     val items = listOf(
         Screen.Home,
         Screen.Search,
@@ -151,10 +156,12 @@ fun BottomNavigationBar(navController: NavHostController) {
                 selected = currentRoute == screen.route,
                 onClick = {
                     navController.navigate(screen.route) {
+                        /** 인자로 받은곳 까지 백스택을 제거함. */
                         popUpTo(navController.graph.startDestinationId) { saveState = true }
                         launchSingleTop = true
                         restoreState = true
                     }
+                    Toast.makeText(context, "이름: ${screen.route}, ${screen.hashCode()}", Toast.LENGTH_SHORT).show()
                 }
             )
         }
